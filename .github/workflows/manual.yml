@@ -2,6 +2,11 @@ name: Manual Workflow
 
 on:
   workflow_dispatch:
+    inputs:
+      name:
+        description: "Name"
+        type: string
+        default: 'test'
 
 jobs:
   demo:
@@ -9,4 +14,4 @@ jobs:
 
     steps:
     - name: Greetings
-      run: echo "Hello World"
+      run: echo ${{inputs.name}}
