@@ -12,6 +12,6 @@ jobs:
     steps:
      - name: Log date and time
        run: | 
-         current_date_time=${date}
-         echo "Current Date and time = ${{current_date_time}}
+         current_date_time=$(date)
+         echo "Current Date and time = $current_date_time
             
