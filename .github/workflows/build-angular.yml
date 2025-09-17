@@ -30,7 +30,17 @@ jobs:
         with: 
          name: angular-dist
          path: ./myapp/dist
-        
+
+  deploy-angular:
+    runs-on: ubuntu-latest    
+    if: ${{ always() }}  
+    needs:
+        - build-angular
+    steps: 
+      - name: test
+        run: echo "test step"
+    
+      
        
 
       
