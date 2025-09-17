@@ -24,6 +24,12 @@ jobs:
       - name: Build
         run: npm run build
         working-directory: ./myapp
+
+      - name: Upload Build Artifacts
+        uses: actions/upload-artifact@v4.6.2
+        with: 
+         name: angular-dist
+         path: ./myapp/dist
         
        
 
