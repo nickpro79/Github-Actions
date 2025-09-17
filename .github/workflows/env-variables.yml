@@ -1,0 +1,36 @@
+name: Environment Variables
+
+on:
+  push:
+    branches: [ main ]
+
+env:
+  CHANNEL_NAME: Nikhil
+
+jobs:
+    job1:
+      runs-on: ubuntu-latest
+
+      steps:
+      - name: Greetings
+        run: echo "hello, $CHANNEL_NAME "
+
+      - name: Set env variables programmatically
+        run: echo "COUNT=100000" >> $GITHUB_ENV
+
+      - name: Access env variable
+        run: echo ${{ env.COUNT }}
+
+      - name: Update env variables
+        run: |
+          echo "CHANNEL_NAME=Test" >> $GITHUB_ENV
+          echo "COUNT=200000" >> $GITHUB_ENV
+      
+      - name: Access updated env variabls
+        run: |
+          echo ${{ env.COUNT }}   
+          echo ${{ env.CHANNEL_NAME }}        
+          
+          
+
+    
