@@ -28,17 +28,21 @@ jobs:
       - name: Upload Build Artifacts
         uses: actions/upload-artifact@v4.6.2
         with: 
-         name: angular-dist
+         name: build-artifact
          path: ./myapp/dist
 
   deploy-angular:
     runs-on: ubuntu-latest    
-    if: ${{ always() }}  
-    needs:
-        - build-angular
+    needs:  build-angular
     steps: 
-      - name: test
-        run: echo "test step"
+      - name: Download Artifacts
+        uses: actions/download-artifact@v5.0.0
+        with: 
+          name: build-artifact
+          path: artifact
+      
+      - name: Display structure of downloaded files
+        run: ls -R artifact    
     
       
        
