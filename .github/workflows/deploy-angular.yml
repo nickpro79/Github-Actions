@@ -1,0 +1,19 @@
+name: Deploy Angular App
+
+on:
+  workflow_dispatch:
+  
+
+jobs: 
+  deploy-angular:
+    runs-on: ubuntu-latest    
+    steps: 
+      - name: Download Artifacts
+        uses: actions/download-artifact@v5.0.0
+        with: 
+          name: build-artifact
+          path: artifact
+          run-id: 17818604254 
+      
+      - name: Display structure of downloaded files
+        run: ls -R artifact  
