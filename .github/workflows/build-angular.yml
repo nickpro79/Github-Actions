@@ -31,19 +31,7 @@ jobs:
          name: build-artifact
          path: ./myapp/dist
 
-  deploy-angular:
-    runs-on: ubuntu-latest    
-    needs:  build-angular
-    steps: 
-      - name: Download Artifacts
-        uses: actions/download-artifact@v5.0.0
-        with: 
-          name: build-artifact
-          path: artifact
-      
-      - name: Display structure of downloaded files
-        run: ls -R artifact    
-    
+
       
        
 
