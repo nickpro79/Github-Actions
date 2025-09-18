@@ -1,0 +1,45 @@
+name: Build and Test
+
+on:
+  workflow_call:
+    inputs:
+      node-version:
+        description: 'Node.js version to use'
+        required: true
+        type: string
+        default: '20'
+      run-tests:
+        description: 'Whether to run tests'
+        required: false
+        type: boolean
+        default: true
+    outputs:
+      build-output-path:
+        description: 'Path to the build output folder'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    outputs:
+      build-output-path: ${{ steps.build.outputs.output-path }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ inputs['node-version'] }}
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build project
+        id: build
+        run: |
+          npm run build
+          echo "::set-output name=output-path::dist"
+
+      - name: Run tests (optional)
+        if: ${{ inputs['run-tests'] }}
+        run: npm test
