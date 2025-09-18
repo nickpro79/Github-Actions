@@ -1,0 +1,19 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  call-build-and-test:
+    uses: ./.github/workflows/build-and-test.yml
+    with:
+      node-version: '18'
+      run-tests: false
+
+  deploy:
+    needs: call-build-and-test
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Build folder is ${{ needs.call-build-and-test.outputs.build-output-path }}"
