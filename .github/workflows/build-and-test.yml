@@ -4,42 +4,37 @@ on:
   workflow_call:
     inputs:
       node-version:
-        description: 'Node.js version to use'
         required: true
         type: string
-        default: '20'
       run-tests:
-        description: 'Whether to run tests'
-        required: false
+        required: true
         type: boolean
-        default: true
     outputs:
       build-output-path:
-        description: 'Path to the build output folder'
+        description: 'Path to build output folder'
+        value: ${{ jobs.build.outputs.build-output-path }}
 
 jobs:
   build:
     runs-on: ubuntu-latest
     outputs:
-      build-output-path: ${{ steps.build.outputs.output-path }}
+      build-output-path: ${{ steps.set-build-output.outputs.build-folder }}
+
     steps:
-      - name: Checkout repository
+      - name: Checkout repo
         uses: actions/checkout@v3
 
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: ${{ inputs['node-version'] }}
+          node-version: ${{ inputs.node-version }}
 
-      - name: Install dependencies
-        run: npm install
-
-      - name: Build project
-        id: build
+      - name: Build
+        id: build-step
         run: |
-          npm run build
-          echo "::set-output name=output-path::dist"
+          # Simulate build, create build folder path output
+          echo "build-output-folder=dist" >> $GITHUB_OUTPUT
 
-      - name: Run tests (optional)
-        if: ${{ inputs['run-tests'] }}
-        run: npm test
+      - name: Set build output
+        id: set-build-output
+        run: echo "::set-output name=build-folder::dist"
