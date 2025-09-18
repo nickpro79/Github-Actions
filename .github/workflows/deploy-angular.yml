@@ -13,6 +13,8 @@ jobs:
         with: 
           name: build-artifact
           path: artifact
+          github-token: ${{ github.token }}
+          repository: ${{ github.repository }}
           run-id: 17818604254 
       
       - name: Display structure of downloaded files
