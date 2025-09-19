@@ -1,0 +1,45 @@
+name: Deploy App
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v5.0.0
+      
+    - name: Install dependencies
+      run: npm install
+      
+    - name: Run Tests
+      run: npm test 
+
+  deploy-dev:
+    runs-on: ubuntu-latest
+    needs: build
+    environment: Dev
+    steps: 
+      - name: Deploy to Dev
+        run: echo "Deploying to Dev with the API key = ${{secrets.API-KEY}} " 
+
+  deploy-stage:
+    runs-on: ubuntu-latest
+    needs: deploy-dev
+    environment: Stage
+    steps: 
+      - name: Deploy to Stage
+        run: echo "Deploying to Stage with the API key = ${{secrets.API-KEY}} " 
+        
+  deploy-prod:
+    runs-on: ubuntu-latest
+    needs: deploy-stage
+    environment: Prod
+    steps: 
+      - name: Deploy to Prod
+        run: echo "Deploying to Production with the API key = ${{secrets.API-KEY}} "     
+      
